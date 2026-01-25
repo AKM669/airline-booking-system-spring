@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Airline</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #34495e;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #27ae60;
+            color: white;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #1e8449;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Create / Update Airline</h2>
+
+    <form th:action="@{/airline/save}"
+          th:object="${airline}"
+          method="post">
+
+        <!-- Hidden field for Update -->
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-row">
+            <label>Airline Name</label>
+            <input type="text" th:field="*{name}" required>
+        </div>
+
+        <div class="form-row">
+            <label>Airline Code</label>
+            <input type="text" th:field="*{code}" required>
+        </div>
+
+        <div class="form-row">
+            <label>Country</label>
+            <input type="text" th:field="*{country}" required>
+        </div>
+
+        <div class="form-row">
+            <label>Total Seat</label>
+            <input type="text" th:field="*{noOfSeats}" required>
+        </div>
+
+        <button type="submit"
+                th:text="${airline.id} == null ? 'Save Airline' : 'Update Airline'">
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

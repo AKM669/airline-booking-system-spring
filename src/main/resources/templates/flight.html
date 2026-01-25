@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Flight Management</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 30px;
+            background: #f5f5f5;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        th {
+            background: #2c3e50;
+            color: white;
+        }
+
+        button {
+            padding: 8px;
+            background: green;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Flight Management</h1>
+
+<div th:if="${success}" style="color:green">
+    <span th:text="${success}"></span>
+</div>
+
+<div th:if="${error}" style="color:red">
+    <span th:text="${error}"></span>
+</div>
+
+<button onclick="location.href='/flight/new'">
+    Add New Flight
+</button>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Flight Number</th>
+        <th>Source</th>
+        <th>Destination</th>
+        <th>Departure</th>
+        <th>Arrival</th>
+        <th>Actions</th>
+    </tr>
+
+    <tr th:each="f : ${flights}">
+        <td th:text="${f.id}"></td>
+        <td th:text="${f.flightNumber}"></td>
+        <td th:text="${f.source}"></td>
+        <td th:text="${f.destination}"></td>
+        <td th:text="${f.departureTime}"></td>
+        <td th:text="${f.arrivalTime}"></td>
+
+
+        <td>
+            <a th:href="@{/flight/edit/{id}(id=${f.id})}">
+                Edit
+            </a>
+
+            |
+
+            <a th:href="@{/flight/delete/{id}(id=${f.id})}"
+               onclick="return confirm('Are you sure to delete this flight?')">
+                Delete
+            </a>
+        </td>
+    </tr>
+
+</table>
+
+</body>
+</html>

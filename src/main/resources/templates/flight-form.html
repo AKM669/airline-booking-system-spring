@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Flight Form</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+        }
+
+        .container {
+            width: 50%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            width: 100%;
+            background: green;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Flight Form</h2>
+
+    <form th:action="@{/flight/save}"
+          th:object="${flight}"
+          method="post">
+
+        <input type="hidden" th:field="*{id}" />
+
+        <label>Flight Number</label>
+        <input type="text" th:field="*{flightNumber}" required />
+
+        <label>Source</label>
+        <input type="text" th:field="*{source}" required />
+
+        <label>Destination</label>
+        <input type="text" th:field="*{destination}" required />
+
+        <label>Departure Time</label>
+        <input type="datetime-local" th:field="*{departureTime}" required />
+
+        <label>Arrival Time</label>
+        <input type="datetime-local" th:field="*{arrivalTime}" required />
+
+        <label>Select Airline</label>
+
+        <!-- CORRECTED DROPDOWN BINDING -->
+        <select th:field="*{airline.id}">
+            <option value="">-- Select Airline --</option>
+            <option th:each="a : ${aircraft}"
+                    th:value="${a.id}"
+                    th:text="${a.name}">
+            </option>
+        </select>
+
+        <button type="submit"
+                th:text="${flight.id} == null ? 'Save Flight' : 'Update Flight'">
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Flight Management System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        button {
+            padding: 8px 15px;
+            margin: 5px;
+            border: none;
+            background-color: #27ae60;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #1e8449;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<h1>Flight Management System</h1>
+<p>Manage Airlines Here</p>
+
+<div style="display:flex; justify-content:space-between; align-items:center;">
+
+    <h2>Airline List</h2>
+
+    <div th:if="${success}"
+         style="background:#d4edda; color:#155724; padding:10px; border-radius:5px;">
+        <span th:text="${success}"></span>
+    </div>
+
+    <div th:if="${error}"
+         style="background:#f8d7da; color:#721c24; padding:10px; border-radius:5px;">
+        <span th:text="${error}"></span>
+    </div>
+
+    <button onclick="location.href='/airline/new'">
+        + Create Airline
+    </button>
+
+</div>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Code</th>
+        <th>Country</th>
+        <th>Seats</th>
+        <th>Actions</th>
+    </tr>
+
+    <tr th:each="a : ${airlines}">
+        <td th:text="${a.id}"></td>
+        <td th:text="${a.name}"></td>
+        <td th:text="${a.code}"></td>
+        <td th:text="${a.country}"></td>
+        <td th:text="${a.noOfSeats}"></td>
+
+        <td>
+            <a th:href="@{/airline/edit/{id}(id=${a.id})}">
+                ✏️ Edit
+            </a>
+
+            &nbsp;&nbsp;
+
+            <a th:href="@{/airline/delete/{id}(id=${a.id})}"
+               onclick="return confirm('Are you sure to delete?')">
+                🗑️ Delete
+            </a>
+        </td>
+    </tr>
+
+</table>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Booking Management</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 30px;
+            background: #f0f0f0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        th {
+            background: #2c3e50;
+            color: white;
+        }
+
+        button {
+            padding: 8px;
+            background: green;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Booking Management</h1>
+
+<div th:if="${success}" style="color:green">
+    <span th:text="${success}"></span>
+</div>
+
+<div th:if="${error}" style="color:red">
+    <span th:text="${error}"></span>
+</div>
+
+<button onclick="location.href='/booking/new'">
+    New Booking
+</button>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Journey Date</th>
+        <th>Status</th>
+        <th>Passenger</th>
+        <th>Flight</th>
+        <th>Payment</th>
+        <th>Actions</th>
+    </tr>
+
+    <tr th:each="b : ${bookings}">
+        <td th:text="${b.id}"></td>
+        <td th:text="${b.journeyDate}"></td>
+        <td th:text="${b.status}"></td>
+        <td th:text="${b.passenger != null ? b.passenger.name : 'N/A'}"></td>
+        <td th:text="${b.flight != null ? b.flight.flightNumber : 'N/A'}"></td>
+        <td th:text="${b.payment}"></td>
+
+        <td>
+            <a th:href="@{/booking/edit/{id}(id=${b.id})}">Edit</a>
+
+            |
+
+            <a th:href="@{/booking/delete/{id}(id=${b.id})}"
+               onclick="return confirm('Are you sure to cancel this booking?')">
+                Delete
+            </a>
+        </td>
+    </tr>
+
+</table>
+
+</body>
+</html>

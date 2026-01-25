@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Booking Form</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #eef2f7;
+        }
+
+        .container {
+            width: 50%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            width: 100%;
+            background: blue;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Booking Form</h2>
+
+    <form th:action="@{/booking/save}"
+          th:object="${booking}"
+          method="post">
+
+        <input type="hidden" th:field="*{id}" />
+
+        <label>Journey Date</label>
+        <input type="date" th:field="*{journeyDate}" required />
+
+        <label>Status</label>
+        <select th:field="*{status}">
+            <option th:each="s : ${T(com.spring.flight.enums.BookingStatus).values()}"
+                    th:value="${s}"
+                    th:text="${s}">
+            </option>
+        </select>
+
+        <label>Select Passenger</label>
+        <select th:field="*{passenger.id}">
+            <option value="">-- Select Passenger --</option>
+            <option th:each="p : ${passengers}"
+                    th:value="${p.id}"
+                    th:text="${p.name}">
+            </option>
+        </select>
+
+        <label>Select Flight</label>
+        <select th:field="*{flight.id}">
+            <option value="">-- Select Flight --</option>
+            <option th:each="f : ${flights}"
+                    th:value="${f.id}"
+                    th:text="${f.flightNumber}">
+            </option>
+        </select>
+
+        <label>Payment Mode</label>
+        <select th:field="*{payment.paymentMode}">
+            <option value="">-- Select Payment Mode --</option>
+            <option th:each="pm : ${T(com.spring.flight.enums.PaymentMode).values()}"
+                    th:value="${pm}"
+                    th:text="${pm}">
+            </option>
+        </select>
+
+
+
+        <button type="submit"
+                th:text="${booking.id} == null ? 'Save Booking' : 'Update Booking'">
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

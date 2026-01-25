@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Flight Management System - Home</title>
+
+    <style>
+        body{
+            font-family: Arial;
+            background:#ecf0f1;
+            margin:0;
+            padding:0;
+        }
+
+        .header{
+            background:#2c3e50;
+            color:white;
+            padding:20px;
+            text-align:center;
+        }
+
+        .container{
+            display:grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap:20px;
+            padding:40px;
+            max-width:900px;
+            margin:auto;
+        }
+
+        .card{
+            background:white;
+            padding:30px;
+            text-align:center;
+            border-radius:10px;
+            box-shadow:0 4px 8px rgba(0,0,0,0.1);
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .card:hover{
+            transform:scale(1.03);
+            background:#f4f6f7;
+        }
+
+        .card h2{
+            margin-bottom:10px;
+            color:#2c3e50;
+        }
+
+        .card p{
+            color:#555;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>✈ Flight Management System</h1>
+    <p>Central Dashboard</p>
+</div>
+
+<div class="container">
+
+    <div class="card" onclick="location.href='/airline/list'">
+        <h2>Airline Management</h2>
+        <p>Create, Edit, Delete Airlines</p>
+    </div>
+
+    <div class="card" onclick="location.href='/flight/list'">
+        <h2>Flight Management</h2>
+        <p>Manage Flights</p>
+    </div>
+
+    <div class="card" onclick="location.href='/passenger/list'">
+        <h2>Passenger Management</h2>
+        <p>Manage Passengers</p>
+    </div>
+
+    <div class="card" onclick="location.href='/booking/list'">
+        <h2>Booking Management</h2>
+        <p>Manage Bookings</p>
+    </div>
+
+</div>
+
+</body>
+</html>
