@@ -47,7 +47,7 @@ public class FlightServiceImpl implements FlightService {
             f.setDepartureTime(flight.getDepartureTime());
             f.setArrivalTime(flight.getArrivalTime());
             f.setAirline(flight.getAirline());
-
+            f.setBaseFare(flight.getBaseFare());
             flightRepository.save(f);
         }
 
@@ -82,5 +82,10 @@ public class FlightServiceImpl implements FlightService {
             throw new FlightNotFoundException("No flight Available with this ID: " + id);
         }
         flightRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Flight> searchFlight(String source, String destination) {
+        return flightRepository.findBySourceAndDestination(source, destination);
     }
 }

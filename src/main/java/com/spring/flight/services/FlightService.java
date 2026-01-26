@@ -16,4 +16,6 @@ public interface FlightService {
     List<Flight> findAllFlight();
     Flight getFlightById(Integer id) throws FlightNotFoundException;
     void deleteFlightById(Integer id) throws FlightNotFoundException;
+    List<Flight> searchFlight(String source, String destination);
+
 }

@@ -11,3 +11,10 @@ public class FlightManagementApplication {
 	}
 
 }
+
+
+
+// @Component/@Bean
+// @Autowired
+// DemoApp --> DemoService --> @Autowired private DemoService demoService;
+//

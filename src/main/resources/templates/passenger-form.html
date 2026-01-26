@@ -5,44 +5,112 @@
 
     <style>
         body {
-            font-family: Arial;
-            background: #eef1f5;
+            font-family: "Segoe UI", sans-serif;
+            margin: 0;
+            background: linear-gradient(120deg, #e0f2ff, #f9fbff);
         }
 
-        .container {
-            width: 40%;
-            margin: auto;
+        /* Header */
+        header {
+            background: #0d6efd;
+            color: white;
+            padding: 15px 20px;
+            font-size: 22px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .home-btn {
             background: white;
-            padding: 20px;
-            margin-top: 50px;
+            color: #0d6efd;
+            padding: 6px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .home-btn:hover {
+            background: #e6e6e6;
+        }
+
+        /* Form Container */
+        .container {
+            width: 90%;
+            max-width: 500px;
+            margin: 40px auto;
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #0d6efd;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 12px;
+            color: #333;
         }
 
         input {
             width: 100%;
-            padding: 8px;
+            padding: 9px;
             margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
         }
 
         button {
-            margin-top: 10px;
-            padding: 10px;
+            margin-top: 20px;
+            padding: 12px;
             width: 100%;
-            background: blue;
+            background: #0d6efd;
             color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #084298;
+        }
+
+        @media(max-width:600px){
+            .container {
+                margin: 20px;
+            }
         }
     </style>
 </head>
 
 <body>
 
+<!-- Header -->
+<header>
+    ✈️ Passenger Management
+    <a href="/" class="home-btn">Home</a>
+</header>
+
 <div class="container">
 
-    <h2>Passenger Form</h2>
+    <h2 th:text="${passenger.id} == null ? 'Create Passenger' : 'Update Passenger'"></h2>
 
     <form th:action="@{/passenger/save}"
           th:object="${passenger}"
           method="post">
 
+        <!-- Hidden ID -->
         <input type="hidden" th:field="*{id}" />
 
         <label>Name</label>

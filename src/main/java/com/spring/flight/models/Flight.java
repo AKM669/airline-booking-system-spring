@@ -1,6 +1,7 @@
 package com.spring.flight.models;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,8 +13,19 @@ public class Flight extends BaseClass {
     private String flightNumber;
     private String source;
     private String destination;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime departureTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime arrivalTime;
+    private Double baseFare;
+
+    public Double getBaseFare() {
+        return baseFare;
+    }
+
+    public void setBaseFare(Double baseFare) {
+        this.baseFare = baseFare;
+    }
 
     @ManyToOne
     private Airline airline;

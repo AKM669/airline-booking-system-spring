@@ -21,9 +21,18 @@ public class Booking extends BaseClass {
     @ManyToOne
     private Flight flight;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Payment payment;
 
+    private int travellerCount;
+
+    public int getTravellerCount() {
+        return travellerCount;
+    }
+
+    public void setTravellerCount(int travellerCount) {
+        this.travellerCount = travellerCount;
+    }
 
     public LocalDate getJourneyDate() {
         return journeyDate;

@@ -5,54 +5,148 @@
 
     <style>
         body {
-            font-family: Arial;
-            background: #f4f6f9;
+            font-family: "Segoe UI", sans-serif;
+            margin: 0;
+            background: linear-gradient(120deg, #e0f2ff, #f9fbff);
         }
 
-        .container {
-            width: 50%;
-            margin: auto;
+        /* Header */
+        header {
+            background: #0d6efd;
+            color: white;
+            padding: 15px 20px;
+            font-size: 22px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .home-btn {
             background: white;
-            padding: 20px;
-            margin-top: 50px;
+            color: #0d6efd;
+            padding: 6px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .home-btn:hover {
+            background: #e6e6e6;
+        }
+
+        /* Container */
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #0d6efd;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
         }
 
         input, select {
             width: 100%;
             padding: 8px;
             margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         button {
-            margin-top: 10px;
+            margin-top: 20px;
             padding: 10px;
             width: 100%;
-            background: green;
+            background: #0d6efd;
             color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #084298;
+        }
+
+        @media(max-width: 600px) {
+            .container {
+                margin: 20px;
+            }
         }
     </style>
 </head>
 
 <body>
 
+<!-- Header -->
+<header>
+    ✈️ Flight Management
+    <a href="/" class="home-btn">Home</a>
+</header>
+
 <div class="container">
 
-    <h2>Flight Form</h2>
+    <h2 th:text="${flight.id} == null ? 'Add New Flight' : 'Update Flight'"></h2>
 
     <form th:action="@{/flight/save}"
           th:object="${flight}"
           method="post">
 
+        <!-- Hidden ID -->
         <input type="hidden" th:field="*{id}" />
 
         <label>Flight Number</label>
         <input type="text" th:field="*{flightNumber}" required />
 
+        <!-- Source Dropdown -->
         <label>Source</label>
-        <input type="text" th:field="*{source}" required />
+        <select th:field="*{source}" required>
+            <option value="">-- Select Source --</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Kolkata">Kolkata</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Pune">Pune</option>
+            <option value="Ahmedabad">Ahmedabad</option>
+            <option value="Jaipur">Jaipur</option>
+            <option value="Patna">Patna</option>
+        </select>
 
+        <!-- Destination Dropdown -->
         <label>Destination</label>
-        <input type="text" th:field="*{destination}" required />
+        <select th:field="*{destination}" required>
+            <option value="">-- Select Destination --</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Kolkata">Kolkata</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Pune">Pune</option>
+            <option value="Ahmedabad">Ahmedabad</option>
+            <option value="Jaipur">Jaipur</option>
+            <option value="Patna">Patna</option>
+        </select>
+
+        <label>Base Fare</label>
+        <input type="number" step="0.01" th:field="*{baseFare}" required />
 
         <label>Departure Time</label>
         <input type="datetime-local" th:field="*{departureTime}" required />
@@ -60,10 +154,9 @@
         <label>Arrival Time</label>
         <input type="datetime-local" th:field="*{arrivalTime}" required />
 
+        <!-- Airline Dropdown -->
         <label>Select Airline</label>
-
-        <!-- CORRECTED DROPDOWN BINDING -->
-        <select th:field="*{airline.id}">
+        <select th:field="*{airline.id}" required>
             <option value="">-- Select Airline --</option>
             <option th:each="a : ${aircraft}"
                     th:value="${a.id}"

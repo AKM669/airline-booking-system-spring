@@ -5,24 +5,51 @@
 
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
+            font-family: "Segoe UI", sans-serif;
             margin: 0;
-            padding: 0;
+            background: linear-gradient(120deg, #e0f2ff, #f9fbff);
         }
 
+        /* Header */
+        header {
+            background: #0d6efd;
+            color: white;
+            padding: 15px 20px;
+            font-size: 22px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .home-btn {
+            background: white;
+            color: #0d6efd;
+            padding: 6px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .home-btn:hover {
+            background: #e6e6e6;
+        }
+
+        /* Form Container */
         .container {
-            width: 50%;
-            margin: 50px auto;
+            width: 90%;
+            max-width: 550px;
+            margin: 40px auto;
             background: white;
             padding: 25px 30px;
             border-radius: 10px;
-            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         h2 {
             text-align: center;
-            color: #2c3e50;
+            color: #0d6efd;
             margin-bottom: 20px;
         }
 
@@ -34,41 +61,53 @@
             font-weight: bold;
             display: block;
             margin-bottom: 5px;
-            color: #34495e;
+            color: #333;
         }
 
         input {
             width: 100%;
-            padding: 10px;
+            padding: 9px;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 14px;
         }
 
         button {
-            background-color: #27ae60;
+            background-color: #0d6efd;
             color: white;
             padding: 12px;
             width: 100%;
             border: none;
             border-radius: 5px;
             font-size: 15px;
+            font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
         }
 
         button:hover {
-            background-color: #1e8449;
+            background-color: #084298;
         }
 
+        @media(max-width:600px){
+            .container{
+                margin:20px;
+            }
+        }
     </style>
 </head>
 
 <body>
 
+<!-- Header -->
+<header>
+    ✈️ Airline Management
+    <a href="/" class="home-btn">Home</a>
+</header>
+
 <div class="container">
 
-    <h2>Create / Update Airline</h2>
+    <h2 th:text="${airline.id} == null ? 'Create Airline' : 'Update Airline'"></h2>
 
     <form th:action="@{/airline/save}"
           th:object="${airline}"
@@ -93,8 +132,8 @@
         </div>
 
         <div class="form-row">
-            <label>Total Seat</label>
-            <input type="text" th:field="*{noOfSeats}" required>
+            <label>Total Seats</label>
+            <input type="number" th:field="*{noOfSeats}" required>
         </div>
 
         <button type="submit"

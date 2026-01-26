@@ -4,68 +4,93 @@
     <title>Flight Management System - Home</title>
 
     <style>
-        body{
-            font-family: Arial;
-            background:#ecf0f1;
-            margin:0;
-            padding:0;
+        body {
+            font-family: "Segoe UI", sans-serif;
+            margin: 0;
+            background: linear-gradient(120deg, #e0f2ff, #f9fbff);
         }
 
-        .header{
-            background:#2c3e50;
-            color:white;
-            padding:20px;
-            text-align:center;
+        /* Header */
+        header {
+            background: #0d6efd;
+            color: white;
+            padding: 15px 20px;
+            font-size: 22px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .container{
-            display:grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap:20px;
-            padding:40px;
-            max-width:900px;
-            margin:auto;
+        .home-title {
+            font-size: 22px;
         }
 
-        .card{
-            background:white;
-            padding:30px;
-            text-align:center;
-            border-radius:10px;
-            box-shadow:0 4px 8px rgba(0,0,0,0.1);
-            cursor:pointer;
-            transition:0.3s;
+        /* Main Container */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
         }
 
-        .card:hover{
-            transform:scale(1.03);
-            background:#f4f6f7;
+        /* Cards */
+        .card {
+            background: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        .card h2{
-            margin-bottom:10px;
-            color:#2c3e50;
+        .card:hover {
+            transform: translateY(-5px);
+            background: #f1f7ff;
         }
 
-        .card p{
-            color:#555;
+        .card h2 {
+            margin-bottom: 10px;
+            color: #0d6efd;
         }
 
+        .card p {
+            color: #555;
+        }
+
+        /* Footer note */
+        .subtitle {
+            text-align: center;
+            margin-top: -20px;
+            color: #555;
+        }
+
+        @media(max-width: 600px) {
+            header {
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-<div class="header">
-    <h1>✈ Flight Management System</h1>
-    <p>Central Dashboard</p>
-</div>
+<!-- Header -->
+<header>
+    <div class="home-title">✈ Flight Management System</div>
+</header>
 
+<p class="subtitle">Central Dashboard</p>
+
+<!-- Dashboard Cards -->
 <div class="container">
 
     <div class="card" onclick="location.href='/airline/list'">
         <h2>Airline Management</h2>
-        <p>Create, Edit, Delete Airlines</p>
+        <p>Create, Edit & Delete Airlines</p>
     </div>
 
     <div class="card" onclick="location.href='/flight/list'">
@@ -81,6 +106,11 @@
     <div class="card" onclick="location.href='/booking/list'">
         <h2>Booking Management</h2>
         <p>Manage Bookings</p>
+    </div>
+
+    <div class="card" onclick="location.href='/booking/planner'">
+        <h2>Ticket Management</h2>
+        <p>Search & Book Tickets</p>
     </div>
 
 </div>

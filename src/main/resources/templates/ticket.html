@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Flight Ticket Search</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            margin: 0;
+            background: linear-gradient(120deg, #e0f2ff, #f9fbff);
+        }
+
+        /* Header */
+        header {
+            background: #0d6efd;
+            color: white;
+            padding: 15px 20px;
+            font-size: 22px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .home-btn {
+            background: white;
+            color: #0d6efd;
+            padding: 6px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .home-btn:hover {
+            background: #e6e6e6;
+        }
+
+        /* Container */
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        /* Search Box */
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-box div {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 22px;
+        }
+
+        button:hover {
+            background: #084298;
+        }
+
+        /* Messages */
+        .message-success {
+            color: green;
+            margin: 10px 0;
+        }
+
+        .message-error {
+            color: red;
+            margin: 10px 0;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #0d6efd;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f1f7ff;
+        }
+
+        @media(max-width: 768px) {
+            .search-box {
+                flex-direction: column;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    ✈️ Flight Ticket Booking
+    <a href="/" class="home-btn">Home</a>
+</header>
+
+<div class="container">
+
+    <!-- Success / Error Messages -->
+    <div th:if="${success}" class="message-success">
+        <span th:text="${success}"></span>
+    </div>
+
+    <div th:if="${error}" class="message-error">
+        <span th:text="${error}"></span>
+    </div>
+
+    <!-- Search Form -->
+    <form th:action="@{/booking/search}" method="get">
+        <div class="search-box">
+
+            <div>
+                <label>Journey Date & Time</label>
+                <input type="datetime-local" name="journeyDate" required>
+            </div>
+
+            <div>
+                <label>Source</label>
+                <select name="source" required>
+                    <option value="">-- Select Source --</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Pune">Pune</option>
+                    <option value="Ahmedabad">Ahmedabad</option>
+                    <option value="Jaipur">Jaipur</option>
+                    <option value="Patna">Patna</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Destination</label>
+                <select name="destination" required>
+                    <option value="">-- Select Destination --</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Pune">Pune</option>
+                    <option value="Ahmedabad">Ahmedabad</option>
+                    <option value="Jaipur">Jaipur</option>
+                    <option value="Patna">Patna</option>
+                </select>
+            </div>
+
+            <div>
+                <button type="submit">Search Flights</button>
+            </div>
+
+        </div>
+    </form>
+
+    <!-- Flights Table -->
+    <h2 style="margin-top:30px;">Available Flights</h2>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Flight No.</th>
+            <th>Airline</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th>Action</th>
+        </tr>
+
+        <tr th:each="f : ${flights}">
+            <td th:text="${f.id}"></td>
+            <td th:text="${f.flightNumber}"></td>
+            <td th:text="${f.airline.name}"></td>
+            <td th:text="${f.source}"></td>
+            <td th:text="${f.destination}"></td>
+            <td th:text="${f.departureTime}"></td>
+            <td th:text="${f.arrivalTime}"></td>
+            <td>
+                <a th:href="@{/booking/new(flightId=${f.id})}"
+                   style="
+        background:#0d6efd;
+        color:white;
+        padding:6px 12px;
+        border-radius:5px;
+        text-decoration:none;
+        font-weight:bold;">
+                    Book Now
+                </a>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+</html>

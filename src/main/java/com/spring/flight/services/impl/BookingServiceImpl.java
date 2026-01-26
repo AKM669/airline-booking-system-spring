@@ -1,10 +1,17 @@
 package com.spring.flight.services.impl;
 
+import com.spring.flight.enums.BookingStatus;
 import com.spring.flight.exceptions.BookingNotFoundException;
+import com.spring.flight.exceptions.FlightNotFoundException;
 import com.spring.flight.exceptions.NoBookingFoundException;
+import com.spring.flight.exceptions.NoPassengerFoundException;
+import com.spring.flight.models.Flight;
+import com.spring.flight.models.Payment;
 import com.spring.flight.services.BookingService;
 import com.spring.flight.models.Booking;
 import com.spring.flight.repo.BookingRepository;
+import com.spring.flight.services.FlightService;
+import com.spring.flight.services.PassengerService;
 import com.spring.flight.validators.BookingDataValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +28,12 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private BookingDataValidator bookingDataValidator;
 
+    @Autowired
+    private PassengerService passengerService;
+
+    @Autowired
+    private FlightService flightService;
+
     @Override
     public Booking getBookingById(Integer id) throws BookingNotFoundException {
         Optional<Booking> opt=bookingRepository.findById(id);
@@ -34,9 +47,17 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void saveABooking(Booking booking) throws NoBookingFoundException {
+    public void saveABooking(Booking booking) throws NoBookingFoundException, NoPassengerFoundException, FlightNotFoundException {
         if(booking.getId()==null )
         {
+            booking.setStatus(BookingStatus.CONFIRMED);
+            Payment p = new Payment();
+            p.setAmount(booking.getFlight().getBaseFare()* booking.getTravellerCount());
+            p.setPaymentMode(booking.getPayment().getPaymentMode());
+            p.setBooking(booking);
+            booking.setPayment(p);
+            booking.setPassenger(passengerService.getPassengerById(booking.getPassenger().getId()));
+            booking.setFlight(flightService.getFlightById(booking.getFlight().getId()));
             bookingRepository.save(booking);
         }
         else {
@@ -51,8 +72,11 @@ public class BookingServiceImpl implements BookingService {
             b.setStatus(booking.getStatus());
             b.setPassenger(booking.getPassenger());
             b.setFlight(booking.getFlight());
-            b.setPayment(booking.getPayment());
-
+            b.setTravellerCount(booking.getTravellerCount());
+            Payment p1 = b.getPayment();
+            p1.setAmount(booking.getFlight().getBaseFare()* booking.getTravellerCount());
+            p1.setPaymentMode(booking.getPayment().getPaymentMode());
+            b.setPayment(p1);
             bookingRepository.save(b);
         }
     }

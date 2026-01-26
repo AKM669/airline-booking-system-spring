@@ -1,12 +1,7 @@
 package com.spring.flight.controllers;
 
-import com.spring.flight.exceptions.AircraftNotFoundException;
 import com.spring.flight.exceptions.FlightNotFoundException;
-import com.spring.flight.exceptions.NoAircraftFoundException;
-import com.spring.flight.models.Airline;
 import com.spring.flight.models.Flight;
-import com.spring.flight.repo.AirlineRepository;
-import com.spring.flight.repo.FlightRepository;
 import com.spring.flight.services.AirlineService;
 import com.spring.flight.services.FlightService;
 import com.spring.flight.validators.FlightDataValidator;
@@ -14,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/flight")
@@ -33,12 +26,6 @@ public class FlightController {
     @Autowired
     private FlightDataValidator flightDataValidator;
 
-    @GetMapping("/")
-    public String displayFlightHome()
-    {
-        return "redirect:/flight/list";
-    }
-
     @GetMapping("/list")
     public String fetchFlight(Model model)
     {
@@ -49,7 +36,7 @@ public class FlightController {
     }
 
     @GetMapping("/new")
-    public String createNewFlight(Model model) throws NoAircraftFoundException {
+    public String createNewFlight(Model model) {
         model.addAttribute("flight",new Flight());
         model.addAttribute("aircraft",airlineService.findAllAirline());
         return "flight-form";
@@ -87,7 +74,7 @@ public class FlightController {
     }
 
     @GetMapping("/edit/{id}")
-    public String getFlightById(@PathVariable Integer id, Model model) throws FlightNotFoundException, NoAircraftFoundException {
+    public String getFlightById(@PathVariable Integer id, Model model)  {
         try {
             Flight flight=flightService.getFlightById(id);
 
@@ -100,24 +87,24 @@ public class FlightController {
         catch (FlightNotFoundException f)
         {
             model.addAttribute("error","No flight Found ");
-            model.addAttribute("flight",flightService.findAllFlight());
-            return "flight";
         }
+        model.addAttribute("flights",flightService.findAllFlight());
+        return "flight";
     }
 
 
     @GetMapping("/delete/{id}")
-    public String removeFlightById(@PathVariable Integer id, RedirectAttributes model) throws FlightNotFoundException {
+    public String removeFlightById(@PathVariable Integer id, Model model) {
         try {
             flightService.deleteFlightById(id);
-            model.addFlashAttribute("success", "Flight deleted successfully");
+            model.addAttribute("success", "Flight deleted successfully");
         }
         catch (FlightNotFoundException f)
         {
-            model.addFlashAttribute("error", f.getMessage());
+            model.addAttribute("error", f.getMessage());
         }
-        return "redirect:/flight/";
-
+        model.addAttribute("flights",flightService.findAllFlight());
+        return "flight";
     }
 
 }

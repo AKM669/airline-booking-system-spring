@@ -5,89 +5,178 @@
 
     <style>
         body {
-            font-family: Arial;
-            margin: 30px;
-            background: #f5f5f5;
+            font-family: "Segoe UI", sans-serif;
+            margin: 0;
+            background: linear-gradient(120deg, #e0f2ff, #f9fbff);
         }
 
+        /* Header */
+        header {
+            background: #0d6efd;
+            color: white;
+            padding: 15px 20px;
+            font-size: 22px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .home-btn {
+            background: white;
+            color: #0d6efd;
+            padding: 6px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .home-btn:hover {
+            background: #e6e6e6;
+        }
+
+        /* Container */
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        h2 {
+            color: #0d6efd;
+            margin-bottom: 10px;
+        }
+
+        /* Messages */
+        .message-success {
+            color: green;
+            margin: 10px 0;
+        }
+
+        .message-error {
+            color: red;
+            margin: 10px 0;
+        }
+
+        /* Add Button */
+        .add-btn {
+            padding: 10px 15px;
+            background: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .add-btn:hover {
+            background: #084298;
+        }
+
+        /* Table */
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
-            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
         th, td {
-            padding: 10px;
-            border: 1px solid #ccc;
+            padding: 12px;
             text-align: center;
+            border-bottom: 1px solid #ddd;
         }
 
         th {
-            background: #2c3e50;
+            background: #0d6efd;
             color: white;
         }
 
-        button {
-            padding: 8px;
-            background: green;
-            color: white;
-            border: none;
+        tr:hover {
+            background: #f1f7ff;
+        }
+
+        a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #0d6efd;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @media(max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<h1>Flight Management</h1>
+<!-- Header -->
+<header>
+    ✈️ Flight Management
+    <a href="/" class="home-btn">Home</a>
+</header>
 
-<div th:if="${success}" style="color:green">
-    <span th:text="${success}"></span>
+<div class="container">
+
+    <h2>Manage Flights</h2>
+
+    <!-- Success / Error Messages -->
+    <div th:if="${success}" class="message-success">
+        <span th:text="${success}"></span>
+    </div>
+
+    <div th:if="${error}" class="message-error">
+        <span th:text="${error}"></span>
+    </div>
+
+    <!-- Add Flight Button -->
+    <button class="add-btn" onclick="location.href='/flight/new'">
+        + Add New Flight
+    </button>
+
+    <!-- Flights Table -->
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Flight Number</th>
+            <th>Airline</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Fare Per Person</th>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th>Actions</th>
+        </tr>
+
+        <tr th:each="f : ${flights}">
+            <td th:text="${f.id}"></td>
+            <td th:text="${f.flightNumber}"></td>
+            <td th:text="${f.airline.name}"></td>
+            <td th:text="${f.source}"></td>
+            <td th:text="${f.destination}"></td>
+            <td th:text="${f.baseFare}"></td>
+            <td th:text="${f.departureTime}"></td>
+            <td th:text="${f.arrivalTime}"></td>
+            <td>
+                <a th:href="@{/flight/edit/{id}(id=${f.id})}">Edit</a>
+                |
+                <a th:href="@{/flight/delete/{id}(id=${f.id})}"
+                   onclick="return confirm('Are you sure to delete this flight?')">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    </table>
+
 </div>
-
-<div th:if="${error}" style="color:red">
-    <span th:text="${error}"></span>
-</div>
-
-<button onclick="location.href='/flight/new'">
-    Add New Flight
-</button>
-
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Flight Number</th>
-        <th>Source</th>
-        <th>Destination</th>
-        <th>Departure</th>
-        <th>Arrival</th>
-        <th>Actions</th>
-    </tr>
-
-    <tr th:each="f : ${flights}">
-        <td th:text="${f.id}"></td>
-        <td th:text="${f.flightNumber}"></td>
-        <td th:text="${f.source}"></td>
-        <td th:text="${f.destination}"></td>
-        <td th:text="${f.departureTime}"></td>
-        <td th:text="${f.arrivalTime}"></td>
-
-
-        <td>
-            <a th:href="@{/flight/edit/{id}(id=${f.id})}">
-                Edit
-            </a>
-
-            |
-
-            <a th:href="@{/flight/delete/{id}(id=${f.id})}"
-               onclick="return confirm('Are you sure to delete this flight?')">
-                Delete
-            </a>
-        </td>
-    </tr>
-
-</table>
 
 </body>
 </html>
