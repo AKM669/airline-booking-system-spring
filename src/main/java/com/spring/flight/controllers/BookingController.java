@@ -30,9 +30,6 @@ public class BookingController {
     @Autowired
     private PassengerService passengerService;
 
-//    @Autowired
-//    private PaymentMode paymentMode;
-
     @Autowired
     private BookingDataValidator bookingDataValidator;
 
