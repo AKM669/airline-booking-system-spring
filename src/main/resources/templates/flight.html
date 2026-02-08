@@ -10,7 +10,6 @@
             background: linear-gradient(120deg, #e0f2ff, #f9fbff);
         }
 
-        /* Header */
         header {
             background: #0d6efd;
             color: white;
@@ -36,7 +35,6 @@
             background: #e6e6e6;
         }
 
-        /* Container */
         .container {
             width: 90%;
             max-width: 1100px;
@@ -48,7 +46,6 @@
             margin-bottom: 10px;
         }
 
-        /* Messages */
         .message-success {
             color: green;
             margin: 10px 0;
@@ -59,7 +56,6 @@
             margin: 10px 0;
         }
 
-        /* Add Button */
         .add-btn {
             padding: 10px 15px;
             background: #0d6efd;
@@ -75,7 +71,6 @@
             background: #084298;
         }
 
-        /* Table */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -118,7 +113,6 @@
 
 <body>
 
-<!-- Header -->
 <header>
     ✈️ Flight Management
     <a href="/" class="home-btn">Home</a>
@@ -128,7 +122,6 @@
 
     <h2>Manage Flights</h2>
 
-    <!-- Success / Error Messages -->
     <div th:if="${success}" class="message-success">
         <span th:text="${success}"></span>
     </div>
@@ -137,12 +130,10 @@
         <span th:text="${error}"></span>
     </div>
 
-    <!-- Add Flight Button -->
     <button class="add-btn" onclick="location.href='/flight/new'">
         + Add New Flight
     </button>
 
-    <!-- Flights Table -->
     <table>
         <tr>
             <th>ID</th>
@@ -151,6 +142,7 @@
             <th>Source</th>
             <th>Destination</th>
             <th>Fare Per Person</th>
+            <th>Seats Available</th>
             <th>Departure</th>
             <th>Arrival</th>
             <th>Actions</th>
@@ -162,7 +154,8 @@
             <td th:text="${f.airline.name}"></td>
             <td th:text="${f.source}"></td>
             <td th:text="${f.destination}"></td>
-            <td th:text="${f.baseFare}"></td>
+            <td>₹ <span th:text="${f.baseFare}"></span></td>
+            <td th:text="${f.seatsAvailable}"></td>
             <td th:text="${f.departureTime}"></td>
             <td th:text="${f.arrivalTime}"></td>
             <td>

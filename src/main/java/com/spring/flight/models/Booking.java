@@ -2,6 +2,7 @@ package com.spring.flight.models;
 
 import com.spring.flight.enums.BookingStatus;
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 public class Booking extends BaseClass {
 
 
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate journeyDate;
 
     @Enumerated(EnumType.STRING)
@@ -23,6 +24,8 @@ public class Booking extends BaseClass {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Payment payment;
+
+
 
     private int travellerCount;
 

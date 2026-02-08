@@ -17,6 +17,9 @@ public class Seat extends BaseClass {
     @ManyToOne
     private Flight flight;
 
+    @ManyToOne
+    private Booking booking;
+
 
     public String getSeatNumber() {
         return seatNumber;
@@ -50,14 +53,22 @@ public class Seat extends BaseClass {
         this.flight = flight;
     }
 
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
 
     @Override
     public String toString() {
         return "Seat{" +
-                ", seatNumber='" + seatNumber + '\'' +
-                ", seatClass='" + seatClass + '\'' +
+                "seatNumber='" + seatNumber + '\'' +
+                ", seatClass=" + seatClass +
                 ", isAvailable=" + isAvailable +
                 ", flight=" + flight +
+                ", booking=" + booking +
                 '}';
     }
 }

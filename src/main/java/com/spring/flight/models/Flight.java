@@ -10,6 +10,7 @@ import java.util.List;
 public class Flight extends BaseClass {
 
 
+    @Column(unique=true)
     private String flightNumber;
     private String source;
     private String destination;
@@ -18,6 +19,15 @@ public class Flight extends BaseClass {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime arrivalTime;
     private Double baseFare;
+    private Integer seatsAvailable;
+
+    public Integer getSeatsAvailable() {
+        return seatsAvailable;
+    }
+
+    public void setSeatsAvailable(Integer seatsAvailable) {
+        this.seatsAvailable = seatsAvailable;
+    }
 
     public Double getBaseFare() {
         return baseFare;
@@ -30,7 +40,7 @@ public class Flight extends BaseClass {
     @ManyToOne
     private Airline airline;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Seat> seats;
 
     @OneToMany
@@ -105,11 +115,13 @@ public class Flight extends BaseClass {
     @Override
     public String toString() {
         return "Flight{" +
-                ", flightNumber='" + flightNumber + '\'' +
+                "flightNumber='" + flightNumber + '\'' +
                 ", source='" + source + '\'' +
                 ", destination='" + destination + '\'' +
                 ", departureTime=" + departureTime +
                 ", arrivalTime=" + arrivalTime +
+                ", baseFare=" + baseFare +
+                ", seatsAvailable=" + seatsAvailable +
                 ", airline=" + airline +
                 ", seats=" + seats +
                 ", bookings=" + bookings +

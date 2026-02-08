@@ -15,7 +15,7 @@ import java.util.Optional;
 public class AirlineServiceImpl implements AirlineService {
 
     @Autowired
-    AirlineRepository airlineRepository;
+    private AirlineRepository airlineRepository;
 
     @Override
     public Airline getAirlineById(Integer id) throws NoAircraftFoundException {
@@ -33,6 +33,7 @@ public class AirlineServiceImpl implements AirlineService {
     public void saveAirline(Airline airline) throws Exception{
         if(airline.getId()==null)
         {
+            airline.setCode(airline.getCode().toUpperCase());
             airlineRepository.save(airline);
         }
         else {

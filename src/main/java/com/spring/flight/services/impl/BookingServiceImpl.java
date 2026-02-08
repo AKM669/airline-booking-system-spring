@@ -1,12 +1,11 @@
 package com.spring.flight.services.impl;
 
 import com.spring.flight.enums.BookingStatus;
-import com.spring.flight.exceptions.BookingNotFoundException;
-import com.spring.flight.exceptions.FlightNotFoundException;
-import com.spring.flight.exceptions.NoBookingFoundException;
-import com.spring.flight.exceptions.NoPassengerFoundException;
+import com.spring.flight.exceptions.*;
 import com.spring.flight.models.Flight;
 import com.spring.flight.models.Payment;
+import com.spring.flight.repo.FlightRepository;
+import com.spring.flight.repo.SeatRepository;
 import com.spring.flight.services.BookingService;
 import com.spring.flight.models.Booking;
 import com.spring.flight.repo.BookingRepository;
@@ -34,6 +33,12 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private FlightService flightService;
 
+    @Autowired
+    private SeatRepository seatRepository;
+
+    @Autowired
+    private FlightRepository flightRepository;
+
     @Override
     public Booking getBookingById(Integer id) throws BookingNotFoundException {
         Optional<Booking> opt=bookingRepository.findById(id);
@@ -47,17 +52,32 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void saveABooking(Booking booking) throws NoBookingFoundException, NoPassengerFoundException, FlightNotFoundException {
+    public void saveABooking(Booking booking) throws Exception, NoSeatFoundException {
         if(booking.getId()==null )
         {
+            Flight flight=flightService.getFlightById(booking.getFlight().getId());
+            int travellers=booking.getTravellerCount();
+
+            if(flight.getSeatsAvailable()<travellers)
+            {
+                throw new NoSeatFoundException("Not enough seat available");
+            }
+
             booking.setStatus(BookingStatus.CONFIRMED);
+
             Payment p = new Payment();
-            p.setAmount(booking.getFlight().getBaseFare()* booking.getTravellerCount());
+
+            p.setAmount(flight.getBaseFare()* travellers);
             p.setPaymentMode(booking.getPayment().getPaymentMode());
             p.setBooking(booking);
+
             booking.setPayment(p);
             booking.setPassenger(passengerService.getPassengerById(booking.getPassenger().getId()));
             booking.setFlight(flightService.getFlightById(booking.getFlight().getId()));
+
+            flight.setSeatsAvailable(flight.getSeatsAvailable() - travellers);
+
+            flightService.saveFlight(flight);
             bookingRepository.save(booking);
         }
         else {
@@ -76,10 +96,12 @@ public class BookingServiceImpl implements BookingService {
             Payment p1 = b.getPayment();
             p1.setAmount(booking.getFlight().getBaseFare()* booking.getTravellerCount());
             p1.setPaymentMode(booking.getPayment().getPaymentMode());
+            p1.setBooking(booking);
             b.setPayment(p1);
             bookingRepository.save(b);
         }
     }
+
 
     @Override
     public List<Booking> findAllBooking() {

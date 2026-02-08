@@ -12,103 +12,132 @@
 
         /* Header */
         header {
-            background: #0d6efd;
+            background: rgba(13,110,253,0.95);
+            backdrop-filter: blur(6px);
             color: white;
-            padding: 15px 20px;
-            font-size: 22px;
+            padding: 18px 25px;
+            font-size: 24px;
             font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .home-title {
-            font-size: 22px;
+            font-size: 24px;
         }
 
-        /* Main Container */
+        /* Subtitle */
+        .subtitle {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #444;
+            font-weight: 500;
+        }
+
+        /* Container */
         .container {
-            max-width: 1000px;
-            margin: 40px auto;
+            max-width: 1100px;
+            margin: 30px auto;
             padding: 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 25px;
         }
 
         /* Cards */
         .card {
             background: white;
-            padding: 30px;
+            padding: 35px 25px;
             text-align: center;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Top gradient strip */
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 5px;
+            width: 100%;
+            background: linear-gradient(90deg,#0d6efd,#4dabf7);
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            background: #f1f7ff;
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(13,110,253,0.25);
+            background: #f5f9ff;
+        }
+
+        .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
         }
 
         .card h2 {
             margin-bottom: 10px;
             color: #0d6efd;
+            font-size: 20px;
         }
 
         .card p {
             color: #555;
+            font-size: 14px;
         }
 
-        /* Footer note */
-        .subtitle {
-            text-align: center;
-            margin-top: -20px;
-            color: #555;
-        }
-
+        /* Mobile */
         @media(max-width: 600px) {
             header {
-                font-size: 18px;
+                font-size: 20px;
+                padding: 15px;
             }
         }
+
     </style>
 </head>
 
 <body>
 
-<!-- Header -->
 <header>
     <div class="home-title">✈ Flight Management System</div>
 </header>
 
 <p class="subtitle">Central Dashboard</p>
 
-<!-- Dashboard Cards -->
 <div class="container">
 
     <div class="card" onclick="location.href='/airline/list'">
+        <div class="icon">🏢</div>
         <h2>Airline Management</h2>
         <p>Create, Edit & Delete Airlines</p>
     </div>
 
     <div class="card" onclick="location.href='/flight/list'">
+        <div class="icon">🛫</div>
         <h2>Flight Management</h2>
         <p>Manage Flights</p>
     </div>
 
     <div class="card" onclick="location.href='/passenger/list'">
+        <div class="icon">👤</div>
         <h2>Passenger Management</h2>
         <p>Manage Passengers</p>
     </div>
 
     <div class="card" onclick="location.href='/booking/list'">
+        <div class="icon">📘</div>
         <h2>Booking Management</h2>
         <p>Manage Bookings</p>
     </div>
 
     <div class="card" onclick="location.href='/booking/planner'">
+        <div class="icon">🎫</div>
         <h2>Ticket Management</h2>
         <p>Search & Book Tickets</p>
     </div>

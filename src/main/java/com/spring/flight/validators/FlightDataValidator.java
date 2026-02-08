@@ -26,6 +26,10 @@ public class FlightDataValidator implements DataValidator{
         if(flight.getBaseFare() <= 0 ){
             errors.add("Base fare should be greater than 0");
         }
+        if(flight.getSeatsAvailable()!=flight.getAirline().getNoOfSeats())
+        {
+            errors.add("Seats must be same while editing");
+        }
         return errors;
     }
 }

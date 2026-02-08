@@ -44,13 +44,13 @@ public class FlightController {
 
     @PostMapping("/save")
     public String saveFlight(@ModelAttribute Flight f, Model model) {
+        List<String> errors=flightDataValidator.validate(f);
+        if(!errors.isEmpty()) {
+            model.addAttribute("error", errors);
+        }
         if(f.getId()==null)       // agar null hoga to add kar denge-->(By AKM)
         {
-            List<String> errors=flightDataValidator.validate(f);
-            if(!errors.isEmpty()) {
-                model.addAttribute("error", errors);
-            }
-            else {
+
                 try {
                     flightService.saveFlight(f);
                     model.addAttribute("success","Flight created successfully");
@@ -58,7 +58,7 @@ public class FlightController {
                 catch (Exception e){
                     model.addAttribute("error","Error during Flight data creation");
                 }
-            }
+
         }
         else {
             try {

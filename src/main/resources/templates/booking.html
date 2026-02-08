@@ -52,11 +52,13 @@
         .message-success {
             color: green;
             margin-bottom: 10px;
+            font-weight: bold;
         }
 
         .message-error {
             color: red;
             margin-bottom: 10px;
+            font-weight: bold;
         }
 
         /* Add Button */
@@ -132,7 +134,8 @@
     </div>
 
     <!-- Add Booking Button -->
-    <button class="add-btn" onclick="location.href='/booking/new'">
+    <!-- Goes to planner page (search flights flow) -->
+    <button class="add-btn" onclick="location.href='/booking/planner'">
         + New Booking
     </button>
 
@@ -144,6 +147,7 @@
             <th>Status</th>
             <th>Passenger</th>
             <th>Flight</th>
+            <th>Travellers</th>
             <th>Total Amount</th>
             <th>Payment Mode</th>
             <th>Actions</th>
@@ -153,17 +157,23 @@
             <td th:text="${b.id}"></td>
             <td th:text="${b.journeyDate}"></td>
             <td th:text="${b.status}"></td>
+
             <td th:text="${b.passenger != null ? b.passenger.name : 'N/A'}"></td>
+
             <td th:text="${b.flight != null ? b.flight.flightNumber : 'N/A'}"></td>
-            <td th:text="${b.payment.amount}"></td>
-            <td th:text="${b.payment.paymentMode}"></td>
+
+            <td th:text="${b.travellerCount}"></td>
+
+            <td th:text="${b.payment != null ? b.payment.amount : 'N/A'}"></td>
+
+            <td th:text="${b.payment != null ? b.payment.paymentMode : 'N/A'}"></td>
 
             <td>
                 <a th:href="@{/booking/edit/{id}(id=${b.id})}">Edit</a>
                 |
                 <a th:href="@{/booking/delete/{id}(id=${b.id})}"
                    onclick="return confirm('Are you sure to cancel this booking?')">
-                    Delete
+                    Cancel
                 </a>
             </td>
         </tr>

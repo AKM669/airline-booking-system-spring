@@ -16,9 +16,11 @@ public class AirlineDataValidator implements DataValidator{
         {
             errors.add("Airline code must be 2 letter only");
         }
-//        else {
-//            airline.getCode().toUpperCase();
-//        }
+        if(airline.getNoOfSeats()<10 && airline.getNoOfSeats()>250)
+        {
+            errors.add("Seat will be between 10 to 250 only");
+        }
+
         return errors;
     }
 }

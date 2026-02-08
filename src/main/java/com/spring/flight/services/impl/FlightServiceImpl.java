@@ -48,6 +48,17 @@ public class FlightServiceImpl implements FlightService {
             f.setArrivalTime(flight.getArrivalTime());
             f.setAirline(flight.getAirline());
             f.setBaseFare(flight.getBaseFare());
+            f.setSeatsAvailable(flight.getSeatsAvailable());
+            Optional<Airline> opti=airlineRepository.findById(flight.getAirline().getId());
+            if(opti.isEmpty())
+            {
+                throw new AircraftNotFoundException("not found");
+            }
+            else {
+                Airline a=opti.get();
+                f.setAirline(a);
+            }
+         //   f.setSeatsAvailable(flight.getSeatsAvailable());
             flightRepository.save(f);
         }
 

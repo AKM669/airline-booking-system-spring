@@ -2,6 +2,7 @@ package com.spring.flight.controllers;
 
 import com.spring.flight.exceptions.BookingNotFoundException;
 import com.spring.flight.exceptions.FlightNotFoundException;
+import com.spring.flight.exceptions.NoSeatFoundException;
 import com.spring.flight.models.Booking;
 import com.spring.flight.models.Flight;
 import com.spring.flight.models.Payment;
@@ -88,8 +89,8 @@ public class BookingController {
             } else {
                 try {
                     bookingService.saveABooking(b);
-                    model.addAttribute("success", "Booking Successfull");
-                } catch (Exception e) {
+                    model.addAttribute("success", "Booking Successful");
+                } catch (Exception | NoSeatFoundException e) {
                     model.addAttribute("error", "Error during Booking");
                 }
             }
@@ -99,6 +100,9 @@ public class BookingController {
                 model.addAttribute("success", "Booking updated successfully");
             } catch (Exception e) {
                 model.addAttribute("error", "Error during Booking update");
+            }
+            catch (NoSeatFoundException e) {
+                model.addAttribute("error", "Error during Booking");
             }
         }
         model.addAttribute("bookings", bookingService.findAllBooking());
