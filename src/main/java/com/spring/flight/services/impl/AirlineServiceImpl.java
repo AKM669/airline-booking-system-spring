@@ -40,7 +40,7 @@ public class AirlineServiceImpl implements AirlineService {
             Optional<Airline> opt=airlineRepository.findById(airline.getId());
             if(opt.isEmpty())
             {
-                throw new AircraftNotFoundException("Airline not found gor given ID: "+airline.getId());
+                throw new AircraftNotFoundException("Airline not found for given ID: "+airline.getId());
             }
             Airline a=opt.get();
 

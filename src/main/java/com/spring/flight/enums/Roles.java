@@ -25,9 +25,7 @@ public enum Roles {
 
     @Override
     public String toString() {
-        return "Roles{" +
-                "roleName='" + roleName + '\'' +
-                '}';
+        return roleName;
     }
 
     public static List<String> getAllRoleNames() {

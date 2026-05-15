@@ -115,6 +115,20 @@ public class BookingServiceImpl implements BookingService {
         {
             throw new BookingNotFoundException("No Booking found");
         }
-        bookingRepository.deleteById(id);
+        Optional<Booking> opt=bookingRepository.findById(id);
+        if(opt.isEmpty())
+        {
+            throw new BookingNotFoundException("No Booking found");
+        }
+        else {
+            Booking booking=opt.get();
+            Flight flight=booking.getFlight();
+            int travellers=booking.getTravellerCount();
+            flight.setSeatsAvailable(flight.getSeatsAvailable()+travellers);
+
+            flightRepository.save(flight);
+            bookingRepository.deleteById(id);
+
+        }
     }
 }
